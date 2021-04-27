@@ -55,17 +55,21 @@ final class RepositoryServiceTests: XCTestCase {
                        HTTPMethod.get)
         
         XCTAssertEqual(params?.parameters as? [String: String],
-                       ["q" : "Let swift"])
+                       ["q" : "Let Swift"])
         
-        RepositoryService.search(
-            keyword: "RxSwift",
-            completionHandler: { result in
-                expectation.fulfill()
-                XCTAssertEqual(result.isSuccess, true)
-                XCTAssertEqual(result.value?.items.contains {
-                    $0.name == "RxSwift"
-                }, true)
-            }
-        )
+//        // given
+//            let expectation = XCTestExpectation()
+//            XCTWaiter().wait(for: [expectation], timeout: 10)
+//        //when
+//        service.search(
+//            keyword: "RxSwift",
+//            completionHandler: { result in
+//                expectation.fulfill()
+//                XCTAssertEqual(result.isSuccess, true)
+//                XCTAssertEqual(result.value?.items.contains {
+//                    $0.name == "RxSwift"
+//                }, true)
+//            }
+//        )
     }
 }

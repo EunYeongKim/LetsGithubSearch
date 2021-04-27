@@ -8,9 +8,14 @@
 
 import Alamofire
 
+protocol RepositoryServiceProtocol {
+    @discardableResult
+    func search(keyword: String, completionHandler: @escaping (Result<RepositorySearchResult>) -> Void) -> DataRequest
+}
+
 // 단순히 search라는 메소드 제공
 //    - Alamofire를 사용해서 url에 쿼리를 날리고 그 결과를 decodable로 맵핑함
-final class RepositoryService {
+final class RepositoryService: RepositoryServiceProtocol{
     private let sessionManager: SessionManagerProtocol
     
     init(sessionManager: SessionManagerProtocol) {
@@ -23,21 +28,6 @@ final class RepositoryService {
         let url = "https://api.github.com/search/repositories"
         let parameters: Parameters = ["q": keyword]
         return self.sessionManager.request(url, method: .get, parameters: parameters, encoding: URLEncoding(), headers: nil)
-          .responseData { response in
-            let decoder = JSONDecoder()
-            let result = response.result.flatMap {
-              try decoder.decode(RepositorySearchResult.self, from: $0)
-            }
-            completionHandler(result)
-          }
-      }
-
-      @available(*, deprecated)
-      @discardableResult
-      class func search(keyword: String, completionHandler: @escaping (Result<RepositorySearchResult>) -> Void) -> DataRequest {
-        let url = "https://api.github.com/search/repositories"
-        let parameters: Parameters = ["q": keyword]
-        return SessionManager.default.request(url, method: .get, parameters: parameters, encoding: URLEncoding(), headers: nil)
           .responseData { response in
             let decoder = JSONDecoder()
             let result = response.result.flatMap {
