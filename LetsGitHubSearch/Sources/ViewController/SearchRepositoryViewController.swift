@@ -11,6 +11,8 @@ import UIKit
 import Alamofire
 
 class SearchRepositoryViewController: UIViewController {
+    var repositoryService: RepositoryService!
+    
   let searchController = UISearchController(searchResultsController: nil)
 
   @IBOutlet private(set) var tableView: UITableView!
