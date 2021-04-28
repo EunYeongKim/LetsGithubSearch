@@ -10,8 +10,10 @@ import Foundation
 
 struct Repository: Decodable {
   let name: String
+    let starCount: Int
 
   enum CodingKeys: String, CodingKey {
     case name = "name"
+    case starCount = "stargazers_count"
   }
 }

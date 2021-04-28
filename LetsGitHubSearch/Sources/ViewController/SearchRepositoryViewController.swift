@@ -66,10 +66,10 @@ extension SearchRepositoryViewController: UISearchBarDelegate {
 
   private func setLoading(_ isLoading: Bool) {
     if isLoading {
-      self.activityIndicatorView.stopAnimating()
+      self.activityIndicatorView.startAnimating()
       self.tableView.isHidden = true
     } else {
-      self.activityIndicatorView.startAnimating()
+      self.activityIndicatorView.stopAnimating()
       self.tableView.isHidden = false
     }
   }
@@ -95,6 +95,15 @@ extension SearchRepositoryViewController: UITableViewDataSource {
     let repository = self.repositories[indexPath.row]
     let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
     cell.textLabel?.text = repository.name
+    cell.detailTextLabel?.text = self.formattedStarCount(repository.starCount)
+    
     return cell
   }
+    
+    private func formattedStarCount(_ count: Int) -> String? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        guard let formattedString = formatter.string(from: count as NSNumber) else { return nil }
+        return "⭐️\(formattedString)"
+    }
 }
